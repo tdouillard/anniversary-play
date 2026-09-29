@@ -1,7 +1,7 @@
 {
     "title": "Les mots surprises",
-    "credit": "3 themes, 6 termes techniques a decouvrir",
-    "completionMessage": "Tout est trouve. A toi de jouer !",
+    "credit": "3 thèmes, 6 termes techniques à découvrir",
+    "completionMessage": "Tout est trouvé. À toi de jouer !",
     "themes": [
         {
             "id": "golf",
@@ -29,7 +29,7 @@
         {
             "id": "golf-dubuisson",
             "answer": "DUBUISSON",
-            "clue": "Français vainqueur de la Ryder Cup 2014",
+            "clue": "Français, vainqueur de la Ryder Cup 2014.",
             "theme": "golf"
         },
         {
@@ -41,19 +41,19 @@
         {
             "id": "racket-t",
             "answer": "T",
-            "clue": "Jonction entre la ligne de service et la ligne médiane",
+            "clue": "Jonction entre la ligne de service et la ligne médiane.",
             "theme": "raquettes"
         },
         {
             "id": "food-sabayon",
             "answer": "SABAYON",
-            "clue": "Creme mousseuse preparee en fouettant des jaunes d'oeufs avec du sucre et un liquide chaud",
+            "clue": "Crème mousseuse préparée en fouettant des jaunes d'œufs avec du sucre et un liquide chaud.",
             "theme": "gastronomie"
         },
         {
             "id": "food-pithiviers",
             "answer": "PITHIVIERS",
-            "clue": "Gateau feuillete du Loiret garni de creme d'amandes et souvent decore de croisillons",
+            "clue": "Gâteau feuilleté du Loiret, garni de crème d'amandes et souvent décoré de croisillons.",
             "theme": "gastronomie"
         }
     ]

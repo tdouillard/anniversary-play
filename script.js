@@ -190,6 +190,9 @@ function selectEntry(entryId, focusInput) {
     cell.classList.toggle("is-active", cell.dataset.cell && state.cells.get(cell.dataset.cell)?.placements.includes(entryId));
   });
   byId("active-hint").textContent = `${placement.number} ${placement.direction === "across" ? "horizontale" : "verticale"}`;
+  byId("mobile-clue-number").textContent = `N° ${placement.number} | ${placement.direction === "across" ? "Horizontale" : "Verticale"}`;
+  byId("mobile-clue-text").textContent = placement.entry.clue;
+  byId("mobile-active-clue").hidden = false;
   if (focusInput) {
     const firstEmpty = placement.entry.cells.find((cellKey) => !inputFor(cellKey).value);
     inputFor(firstEmpty || placement.entry.cells[0])?.focus();
@@ -281,11 +284,11 @@ function updateDisplay() {
   byId("completion-image").hidden = !allThemesRevealed;
 
   if (solved.length === total && total > 0) {
-    byId("reveal-note").textContent = state.config.completionMessage || "Tout est trouve. A toi de jouer !";
+    byId("reveal-note").textContent = state.config.completionMessage || "Tout est trouvé. À toi de jouer !";
   } else if (revealedCount) {
-    byId("reveal-note").textContent = `${revealedCount} surprise${revealedCount > 1 ? "s" : ""} revelee${revealedCount > 1 ? "s" : ""}. Continue pour trouver les autres.`;
+    byId("reveal-note").textContent = `${revealedCount} surprise${revealedCount > 1 ? "s" : ""} révélée${revealedCount > 1 ? "s" : ""}. Continue pour trouver les autres.`;
   } else {
-    byId("reveal-note").textContent = "Trouve tous les mots d'une famille pour reveler son theme.";
+    byId("reveal-note").textContent = "Trouve tous les mots d'une famille pour révéler son thème.";
   }
 }
 
@@ -301,7 +304,7 @@ function checkAnswers() {
   state.errorsVisible = true;
   updateDisplay();
   const solvedCount = state.placements.filter(isSolved).length;
-  if (solvedCount === state.placements.length) showToast("Bravo, toutes les surprises sont revelees !");
+  if (solvedCount === state.placements.length) showToast("Bravo, toutes les surprises sont révélées !");
   else showToast("Les cases vertes sont justes. Revois les cases roses.");
 }
 
@@ -312,8 +315,9 @@ function resetPuzzle() {
   document.querySelectorAll(".clue-button").forEach((button) => button.classList.remove("is-active"));
   document.querySelectorAll(".cell").forEach((cell) => cell.classList.remove("is-active"));
   byId("active-hint").textContent = "Choisis un mot";
+  byId("mobile-active-clue").hidden = true;
   updateDisplay();
-  showToast("La grille est prete a recommencer.");
+  showToast("La grille est prête à recommencer.");
 }
 
 function renderPuzzle(generated) {
@@ -373,7 +377,7 @@ function renderPuzzle(generated) {
   renderClues("across");
   renderClues("down");
   renderReveals();
-  byId("puzzle-credit").textContent = state.config.credit || "Une grille a resoudre";
+  byId("puzzle-credit").textContent = state.config.credit || "Une grille à résoudre";
   byId("loading-state").hidden = true;
   updateDisplay();
 }
@@ -384,7 +388,7 @@ async function start() {
     if (!response.ok) throw new Error(`Chargement JSON impossible (${response.status})`);
     state.config = await response.json();
     byId("theme-count").textContent = state.config.themes.length;
-    byId("page-description").content = `Une grille de mots croises interactive pour decouvrir ${state.config.themes.length} surprises.`;
+    byId("page-description").content = `Une grille de mots croisés interactive pour découvrir ${state.config.themes.length} surprises.`;
     state.entries = state.config.words.map((word, index) => ({
       ...word,
       id: word.id || `word-${index + 1}`,
@@ -404,4 +408,20 @@ async function start() {
 
 byId("check-button").addEventListener("click", checkAnswers);
 byId("reset-button").addEventListener("click", resetPuzzle);
+
+function updateKeyboardInset() {
+  const viewport = window.visualViewport;
+  const inputFocused = document.activeElement?.matches(".cell input");
+  const inset = viewport && inputFocused
+    ? Math.max(0, window.innerHeight - viewport.height - viewport.offsetTop)
+    : 0;
+  document.documentElement.style.setProperty("--keyboard-inset", `${inset}px`);
+}
+
+window.visualViewport?.addEventListener("resize", updateKeyboardInset);
+window.visualViewport?.addEventListener("scroll", updateKeyboardInset);
+window.addEventListener("resize", updateKeyboardInset);
+document.addEventListener("focusin", updateKeyboardInset);
+document.addEventListener("focusout", () => requestAnimationFrame(updateKeyboardInset));
+updateKeyboardInset();
 start();
