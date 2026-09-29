@@ -1,0 +1,60 @@
+{
+    "title": "Les mots surprises",
+    "credit": "3 themes, 6 termes techniques a decouvrir",
+    "completionMessage": "Tout est trouve. A toi de jouer !",
+    "themes": [
+        {
+            "id": "golf",
+            "name": "Golf",
+            "reveal": "GOLF"
+        },
+        {
+            "id": "raquettes",
+            "name": "Raquettes",
+            "reveal": "RAQUETTES"
+        },
+        {
+            "id": "gastronomie",
+            "name": "Gastronomie",
+            "reveal": "GASTRONOMIE"
+        }
+    ],
+    "words": [
+        {
+            "id": "golf-dormie",
+            "answer": "DORMIE",
+            "clue": "En match play, situation ou un joueur mene d'autant de trous qu'il en reste a jouer",
+            "theme": "golf"
+        },
+        {
+            "id": "golf-stableford",
+            "answer": "STABLEFORD",
+            "clue": "Formule de competition ou chaque trou rapporte des points selon le score realise par rapport au par",
+            "theme": "golf"
+        },
+        {
+            "id": "racket-boast",
+            "answer": "BOAST",
+            "clue": "Au squash, coup dirige d'abord contre un mur lateral avant d'atteindre le mur frontal",
+            "theme": "raquettes"
+        },
+        {
+            "id": "racket-degagement",
+            "answer": "DEGAGEMENT",
+            "clue": "Au badminton, frappe haute et profonde envoyant le volant vers le fond du terrain adverse",
+            "theme": "raquettes"
+        },
+        {
+            "id": "food-mirepoix",
+            "answer": "MIREPOIX",
+            "clue": "Melange de carotte, d'oignon et de celeri tailles en des, servant de base aromatique",
+            "theme": "gastronomie"
+        },
+        {
+            "id": "food-lutage",
+            "answer": "LUTAGE",
+            "clue": "Technique consistant a sceller le couvercle d'un recipient avec une pate pour une cuisson hermetique",
+            "theme": "gastronomie"
+        }
+    ]
+}
