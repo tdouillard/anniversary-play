@@ -15,69 +15,72 @@
   <body>
     <main class="page-shell">
       <header class="masthead">
-        <a class="wordmark" href="./" aria-label="Les mots surprises, accueil"><span class="wordmark-mark" id="theme-count">3</span> petits mystères</a>
-        <span class="edition">ÉDITION ANNIVERSAIRE <span class="edition-dot"></span></span>
+        <a class="wordmark" href="./" aria-label="Les mots surprises, accueil" data-i18n-aria-label="homeLink"><span class="wordmark-mark" id="theme-count">3</span> <span data-i18n="brandSuffix">petits mystères</span></a>
+        <div class="masthead-actions">
+          <span class="edition"><span data-i18n="edition">ÉDITION ANNIVERSAIRE</span> <span class="edition-dot"></span></span>
+          <button class="language-button" id="language-toggle" type="button" aria-label="Passer en anglais" title="Passer en anglais">EN</button>
+        </div>
       </header>
 
       <section class="intro" aria-labelledby="page-title">
-        <p class="eyebrow"><span class="eyebrow-line"></span> Une surprise à chaque croisement</p>
-        <h1 id="page-title">Les mots<br><em>surprises.</em></h1>
-        <p class="intro-copy">Complète les définitions. Chaque famille de mots fera apparaître une nouvelle catégorie liée au cadeau.</p>
+        <p class="eyebrow"><span class="eyebrow-line"></span> <span data-i18n="eyebrow">Une surprise à chaque croisement</span></p>
+        <h1 id="page-title"><span data-i18n="titleFirst">Les mots</span><br><em data-i18n="titleSecond">surprises.</em></h1>
+        <p class="intro-copy" data-i18n="introCopy">Complète les définitions. Chaque famille de mots fera apparaître une nouvelle catégorie liée au cadeau.</p>
       </section>
 
-      <section class="game-layout" aria-label="Grille de mots croisés interactive">
+      <section class="game-layout" aria-label="Grille de mots croisés interactive" data-i18n-aria-label="gameLabel">
         <div class="board-column">
           <div class="game-toolbar">
-            <div class="progress-copy"><span id="progress-count">0 / 16</span><span>mots trouvés</span></div>
+            <div class="progress-copy"><span id="progress-count">0 / 16</span><span id="found-words">mots trouvés</span></div>
             <div class="toolbar-actions">
-              <button class="icon-button" id="check-button" type="button" title="Vérifier les lettres" aria-label="Vérifier les lettres">
+              <button class="icon-button" id="check-button" type="button" title="Vérifier les lettres" aria-label="Vérifier les lettres" data-i18n-title="checkLetters" data-i18n-aria-label="checkLetters">
                 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4 4L19 6"/></svg>
               </button>
-              <button class="icon-button" id="reset-button" type="button" title="Recommencer" aria-label="Recommencer">
+              <button class="icon-button" id="reset-button" type="button" title="Recommencer" aria-label="Recommencer" data-i18n-title="restart" data-i18n-aria-label="restart">
                 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12a9 9 0 1 0 2.64-6.36L3 8"/><path d="M3 3v5h5"/></svg>
               </button>
             </div>
           </div>
-          <div class="progress-track" role="progressbar" aria-label="Progression" aria-valuemin="0" aria-valuemax="16" aria-valuenow="0"><span id="progress-bar"></span></div>
+          <div class="progress-track" role="progressbar" aria-label="Progression" data-i18n-aria-label="progress" aria-valuemin="0" aria-valuemax="16" aria-valuenow="0"><span id="progress-bar"></span></div>
           <div class="mobile-active-clue" id="mobile-active-clue" aria-live="polite" aria-atomic="true" hidden>
             <span class="mobile-clue-number" id="mobile-clue-number"></span>
             <p class="mobile-clue-text" id="mobile-clue-text"></p>
           </div>
           <div class="grid-frame">
             <div class="grid-scroll" id="grid-scroll">
-              <div class="crossword" id="crossword" role="grid" aria-label="Grille de mots croisés"></div>
+              <div class="crossword" id="crossword" role="grid" aria-label="Grille de mots croisés" data-i18n-aria-label="gridLabel"></div>
             </div>
-            <div class="grid-loading" id="loading-state">Preparation de la grille...</div>
+            <div class="grid-loading" id="loading-state" data-i18n="loading">Préparation de la grille...</div>
           </div>
-          <div class="board-footnote"><span class="footnote-square"></span> Les cases vertes signalent un mot trouvé.</div>
+          <div class="board-footnote"><span class="footnote-square"></span> <span data-i18n="boardNote">Les cases vertes signalent un mot trouvé.</span></div>
         </div>
 
         <aside class="side-column">
           <section class="reveal-panel" aria-labelledby="reveal-title">
             <div class="panel-heading">
               <div>
-                <p class="eyebrow">À découvrir</p>
-                <h2 id="reveal-title">Les surprises</h2>
+                <p class="eyebrow" data-i18n="discover">À découvrir</p>
+                <h2 id="reveal-title" data-i18n="revealTitle">Les surprises</h2>
               </div>
               <span class="reveal-count" id="reveal-count">0 / 4</span>
             </div>
             <div class="reveal-list" id="reveal-list"></div>
-            <img class="completion-image" id="completion-image" src="./result-asset.png" alt="Illustration d'un parcours de golf au coucher du soleil, d'une raquette et d'un plat gastronomique" hidden>
-            <p class="reveal-note" id="reveal-note">Les surprises se révèlent au fur et à mesure que tu complètes les mots de la grille.</p>
+            <img class="completion-image" id="completion-image" src="./result-asset.png" alt="Illustration d'un parcours de golf au coucher du soleil, d'une raquette et d'un plat gastronomique" data-i18n-alt="completionImageAlt" hidden>
+            <p class="reveal-note" id="reveal-note" data-i18n="revealNote">Les surprises se révèlent au fur et à mesure que tu complètes les mots de la grille.</p>
           </section>
 
-          <section class="clues-panel" aria-label="Définitions">
+          <section class="clues-panel" aria-label="Définitions" data-i18n-aria-label="cluesLabel">
             <div class="clues-heading">
-              <h2>Définitions</h2>
-              <span id="active-hint">Choisis un mot</span>
+              <h2 data-i18n="cluesTitle">Définitions</h2>
+              <span id="active-hint" data-i18n="chooseWord">Choisis un mot</span>
             </div>
             <div class="clue-columns">
               <div class="clue-group">
-                <h3><span class="direction-icon across-icon">↔</span> Horizontales</h3>
+                <h3><span class="direction-icon across-icon">↔</span> <span data-i18n="across">Horizontales</span></h3>
                 <ol class="clue-list" id="across-clues"></ol>
               </div>
               <div class="clue-group">
-                <h3><span class="direction-icon down-icon">↕</span> Verticales</h3>
+                <h3><span class="direction-icon down-icon">↕</span> <span data-i18n="down">Verticales</span></h3>
                 <ol class="clue-list" id="down-clues"></ol>
               </div>
             </div>
@@ -85,7 +88,7 @@
         </aside>
       </section>
 
-      <footer class="page-footer"><span>UN MOT APRÈS L'AUTRE</span><span id="puzzle-credit">Une grille à résoudre</span></footer>
+      <footer class="page-footer"><span data-i18n="footer">UN MOT APRÈS L'AUTRE</span><span id="puzzle-credit">Une grille à résoudre</span></footer>
       <div class="toast" id="toast" role="status" aria-live="polite"></div>
     </main>
   </body>

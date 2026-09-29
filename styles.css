@@ -35,10 +35,14 @@ button { font: inherit; }
 
 .page-shell { width: min(1160px, calc(100% - 64px)); margin: 0 auto; }
 .masthead { height: 76px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--line); }
+.masthead-actions { display: flex; align-items: center; gap: 14px; }
 .wordmark { display: inline-flex; align-items: center; gap: 10px; color: var(--ink); font-size: 14px; font-weight: 700; text-decoration: none; }
 .wordmark-mark { width: 27px; height: 27px; display: grid; place-items: center; border-radius: 50%; background: var(--coral); color: white; font-family: var(--display); font-size: 16px; }
 .edition { display: flex; align-items: center; gap: 9px; color: var(--muted); font-family: var(--mono); font-size: 10px; }
 .edition-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--coral); }
+.language-button { min-width: 38px; height: 30px; padding: 0 7px; border: 1px solid var(--line); border-radius: 4px; background: var(--white); color: var(--ink); cursor: pointer; font-family: var(--mono); font-size: 10px; font-weight: 500; }
+.language-button:hover { border-color: var(--green); background: #e7f2e8; }
+.language-button:focus-visible { outline: 2px solid var(--coral); outline-offset: 2px; }
 
 .intro { display: grid; grid-template-columns: minmax(300px, 1fr) minmax(240px, 320px); column-gap: 50px; align-items: end; padding: 48px 0 36px; }
 .eyebrow { margin: 0 0 12px; color: var(--green); font-family: var(--mono); font-size: 10px; font-weight: 500; letter-spacing: 0; text-transform: uppercase; }
@@ -126,6 +130,7 @@ h1 em { color: var(--coral); font-weight: 600; }
 @media (max-width: 520px) {
   .page-shell { width: calc(100% - 28px); }
   .masthead { height: 60px; }
+  .masthead-actions { gap: 8px; }
   .edition { font-size: 8px; }
   .intro { grid-template-columns: 1fr; gap: 15px; padding: 34px 0 25px; }
   .intro > .eyebrow { margin-bottom: 0; }

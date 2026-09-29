@@ -2,6 +2,35 @@
     "title": "Les mots surprises",
     "credit": "3 thèmes, 6 termes techniques à découvrir",
     "completionMessage": "Tout est trouvé. À toi de jouer !",
+    "translations": {
+        "en": {
+            "title": "Surprise Words",
+            "credit": "3 themes, 6 technical terms to discover",
+            "completionMessage": "You've found everything. Now it's your turn!",
+            "themes": {
+                "golf": {
+                    "name": "Golf",
+                    "reveal": "GOLF"
+                },
+                "raquettes": {
+                    "name": "Racket sports",
+                    "reveal": "RACKETS"
+                },
+                "gastronomie": {
+                    "name": "Food",
+                    "reveal": "FOOD"
+                }
+            },
+            "words": {
+                "golf-albatros": "Finishing in  three attempts fewer than expected.",
+                "golf-dubuisson": "French who won the 2014 Ryder Cup.",
+                "racket-cuillere": "A hit made with an upward, vertical motion.",
+                "racket-t": "The junction of the service line and the centre line.",
+                "food-sabayon": "A foamy cream made by whisking egg yolks with sugar and a hot liquid.",
+                "food-pithiviers": "A puff pastry cake from Loiret, filled with almond cream and often decorated with a criss-cross pattern."
+            }
+        }
+    },
     "themes": [
         {
             "id": "golf",

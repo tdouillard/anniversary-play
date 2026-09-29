@@ -6,10 +6,148 @@ const state = {
   activeEntry: null,
   errorsVisible: false,
   toastTimer: null,
+  language: "fr",
 };
 
 const byId = (id) => document.getElementById(id);
 const keyOf = (row, col) => `${row},${col}`;
+const interfaceText = {
+  fr: {
+    brandSuffix: "petits mystères",
+    homeLink: "Les mots surprises, accueil",
+    edition: "ÉDITION ANNIVERSAIRE",
+    eyebrow: "Une surprise à chaque croisement",
+    titleFirst: "Les mots",
+    titleSecond: "surprises.",
+    introCopy: "Complète les définitions. Chaque famille de mots fera apparaître une nouvelle catégorie liée au cadeau.",
+    gameLabel: "Grille de mots croisés interactive",
+    checkLetters: "Vérifier les lettres",
+    restart: "Recommencer",
+    progress: "Progression",
+    gridLabel: "Grille de mots croisés",
+    loading: "Préparation de la grille...",
+    boardNote: "Les cases vertes signalent un mot trouvé.",
+    discover: "À découvrir",
+    revealTitle: "Les surprises",
+    completionImageAlt: "Illustration d'un parcours de golf au coucher du soleil, d'une raquette et d'un plat gastronomique",
+    revealNote: "Les surprises se révèlent au fur et à mesure que tu complètes les mots de la grille.",
+    cluesLabel: "Définitions",
+    cluesTitle: "Définitions",
+    chooseWord: "Choisis un mot",
+    across: "Horizontales",
+    down: "Verticales",
+    footer: "UN MOT APRÈS L'AUTRE",
+    languageSwitch: "Passer en anglais",
+    singularFound: "mot trouvé",
+    pluralFound: "mots trouvés",
+    acrossHint: "horizontale",
+    downHint: "verticale",
+    mobileAcross: "Horizontale",
+    mobileDown: "Verticale",
+    completed: "Bravo, toutes les surprises sont révélées !",
+    incorrect: "Les cases vertes sont justes. Revois les cases roses.",
+    restartToast: "La grille est prête à recommencer.",
+    noReveals: "Trouve tous les mots d'une famille pour révéler son thème.",
+    continue: "Continue pour trouver les autres.",
+    loadError: "Impossible de charger la grille. Vérifie ta connexion et réessaie.",
+  },
+  en: {
+    brandSuffix: "little mysteries",
+    homeLink: "Surprise Words, home",
+    edition: "ANNIVERSARY EDITION",
+    eyebrow: "A surprise at every crossing",
+    titleFirst: "Surprise",
+    titleSecond: "words.",
+    introCopy: "Solve the clues. Each word family will reveal a new category connected to the gift.",
+    gameLabel: "Interactive crossword grid",
+    checkLetters: "Check letters",
+    restart: "Start over",
+    progress: "Progress",
+    gridLabel: "Crossword grid",
+    loading: "Preparing the grid...",
+    boardNote: "Green squares mark a word you've found.",
+    discover: "To discover",
+    revealTitle: "The surprises",
+    completionImageAlt: "Illustration of a golf course at sunset, a racket, and a gourmet dish",
+    revealNote: "Surprises are revealed as you complete words in the grid.",
+    cluesLabel: "Clues",
+    cluesTitle: "Clues",
+    chooseWord: "Choose a word",
+    across: "Across",
+    down: "Down",
+    footer: "ONE WORD AT A TIME",
+    languageSwitch: "Switch to French",
+    singularFound: "word found",
+    pluralFound: "words found",
+    acrossHint: "across",
+    downHint: "down",
+    mobileAcross: "Across",
+    mobileDown: "Down",
+    completed: "Congratulations, all the surprises have been revealed!",
+    incorrect: "Green squares are correct. Check the pink squares.",
+    restartToast: "The grid is ready to start again.",
+    noReveals: "Find every word in a family to reveal its theme.",
+    continue: "Keep going to find the rest.",
+    loadError: "Unable to load the puzzle. Check your connection and try again.",
+  },
+};
+
+function puzzleTranslation(section, id, field, fallback) {
+  const translated = state.config?.translations?.[state.language]?.[section]?.[id];
+  return (typeof translated === "string" ? translated : translated?.[field]) ?? fallback;
+}
+
+function applyLanguage() {
+  const copy = interfaceText[state.language];
+  document.documentElement.lang = state.language;
+  document.querySelectorAll("[data-i18n]").forEach((element) => {
+    element.textContent = copy[element.dataset.i18n];
+  });
+  [["title", "title"], ["aria-label", "ariaLabel"], ["alt", "alt"]].forEach(([attribute, dataKey]) => {
+    document.querySelectorAll(`[data-i18n-${attribute}]`).forEach((element) => {
+      element.setAttribute(attribute, copy[element.dataset[`i18n${dataKey[0].toUpperCase()}${dataKey.slice(1)}`]]);
+    });
+  });
+  const languageButton = byId("language-toggle");
+  languageButton.textContent = state.language === "fr" ? "EN" : "FR";
+  languageButton.setAttribute("aria-label", copy.languageSwitch);
+  languageButton.title = copy.languageSwitch;
+  byId("found-words").textContent = copy.pluralFound;
+  byId("page-description").content = state.language === "fr"
+    ? `Une grille de mots croisés interactive pour découvrir ${state.config?.themes.length ?? 3} surprises.`
+    : `An interactive crossword to discover ${state.config?.themes.length ?? 3} surprises.`;
+  if (state.config) {
+    document.title = state.config.translations?.[state.language]?.title ?? state.config.title;
+    byId("puzzle-credit").textContent = state.config.translations?.[state.language]?.credit ?? state.config.credit;
+    document.querySelectorAll(".clue-button").forEach((button) => {
+      const entry = state.entries.find((candidate) => candidate.id === button.dataset.entryId);
+      if (entry) button.querySelector(".clue-text").textContent = puzzleTranslation("words", entry.id, "clue", entry.clue);
+    });
+    document.querySelectorAll(".cell input").forEach((input) => {
+      input.setAttribute("aria-label", state.language === "fr"
+        ? `Ligne ${input.dataset.gridRow}, colonne ${input.dataset.gridColumn}`
+        : `Row ${input.dataset.gridRow}, column ${input.dataset.gridColumn}`);
+    });
+    if (state.activeEntry) {
+      const placement = state.placements.find((candidate) => candidate.entry.id === state.activeEntry);
+      if (placement) {
+        byId("active-hint").textContent = `${placement.number} ${copy[placement.direction === "across" ? "acrossHint" : "downHint"]}`;
+        byId("mobile-clue-number").textContent = `${state.language === "fr" ? "N°" : "No."} ${placement.number} | ${copy[placement.direction === "across" ? "mobileAcross" : "mobileDown"]}`;
+        byId("mobile-clue-text").textContent = puzzleTranslation("words", placement.entry.id, "clue", placement.entry.clue);
+      }
+    }
+    updateDisplay();
+  }
+  if (state.loadFailed) byId("loading-state").textContent = copy.loadError;
+}
+
+function toggleLanguage() {
+  state.language = state.language === "fr" ? "en" : "fr";
+  try {
+    localStorage.setItem("surprise-words-language", state.language);
+  } catch {}
+  applyLanguage();
+}
 
 function cleanAnswer(value) {
   return value.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toUpperCase().replace(/[^A-Z]/g, "");
@@ -151,7 +289,7 @@ function renderClues(direction) {
       number.textContent = placement.number;
       const text = document.createElement("span");
       text.className = "clue-text";
-      text.textContent = placement.entry.clue;
+      text.textContent = puzzleTranslation("words", placement.entry.id, "clue", placement.entry.clue);
       button.append(number, text);
       button.addEventListener("click", () => selectEntry(placement.entry.id, true));
       item.append(button);
@@ -189,9 +327,10 @@ function selectEntry(entryId, focusInput) {
   document.querySelectorAll(".cell").forEach((cell) => {
     cell.classList.toggle("is-active", cell.dataset.cell && state.cells.get(cell.dataset.cell)?.placements.includes(entryId));
   });
-  byId("active-hint").textContent = `${placement.number} ${placement.direction === "across" ? "horizontale" : "verticale"}`;
-  byId("mobile-clue-number").textContent = `N° ${placement.number} | ${placement.direction === "across" ? "Horizontale" : "Verticale"}`;
-  byId("mobile-clue-text").textContent = placement.entry.clue;
+  const copy = interfaceText[state.language];
+  byId("active-hint").textContent = `${placement.number} ${copy[placement.direction === "across" ? "acrossHint" : "downHint"]}`;
+  byId("mobile-clue-number").textContent = `${state.language === "fr" ? "N°" : "No."} ${placement.number} | ${copy[placement.direction === "across" ? "mobileAcross" : "mobileDown"]}`;
+  byId("mobile-clue-text").textContent = puzzleTranslation("words", placement.entry.id, "clue", placement.entry.clue);
   byId("mobile-active-clue").hidden = false;
   if (focusInput) {
     const firstEmpty = placement.entry.cells.find((cellKey) => !inputFor(cellKey).value);
@@ -203,6 +342,14 @@ function setActiveFromCell(cell) {
   if (state.activeEntry && cell.placements.includes(state.activeEntry)) return;
   const placement = state.placements.find((candidate) => cell.placements.includes(candidate.entry.id));
   if (placement) selectEntry(placement.entry.id, false);
+}
+
+function clearActiveEntry() {
+  state.activeEntry = null;
+  document.querySelectorAll(".clue-button").forEach((button) => button.classList.remove("is-active"));
+  document.querySelectorAll(".cell").forEach((cell) => cell.classList.remove("is-active"));
+  byId("active-hint").textContent = interfaceText[state.language].chooseWord;
+  byId("mobile-active-clue").hidden = true;
 }
 
 function onLetterInput(event) {
@@ -264,6 +411,9 @@ function updateDisplay() {
 
   const total = state.placements.length;
   byId("progress-count").textContent = `${solved.length} / ${total}`;
+  byId("found-words").textContent = solved.length === 1
+    ? interfaceText[state.language].singularFound
+    : interfaceText[state.language].pluralFound;
   byId("progress-bar").style.width = `${total ? (solved.length / total) * 100 : 0}%`;
   document.querySelector(".progress-track").setAttribute("aria-valuemax", total);
   document.querySelector(".progress-track").setAttribute("aria-valuenow", solved.length);
@@ -276,7 +426,9 @@ function updateDisplay() {
     const revealed = themeEntries.length > 0 && themeEntries.every((placement) => solvedIds.has(placement.entry.id));
     const item = document.querySelector(`[data-theme-id="${theme.id}"]`);
     item.classList.toggle("is-revealed", revealed);
-    item.querySelector(".reveal-word").textContent = revealed ? theme.reveal : "••••••••";
+    item.querySelector(".reveal-word").textContent = revealed
+      ? puzzleTranslation("themes", theme.id, "reveal", theme.reveal)
+      : "••••••••";
     if (revealed) revealedCount += 1;
   });
   byId("reveal-count").textContent = `${revealedCount} / ${state.config.themes.length}`;
@@ -284,11 +436,15 @@ function updateDisplay() {
   byId("completion-image").hidden = !allThemesRevealed;
 
   if (solved.length === total && total > 0) {
-    byId("reveal-note").textContent = state.config.completionMessage || "Tout est trouvé. À toi de jouer !";
+    byId("reveal-note").textContent = state.config.translations?.[state.language]?.completionMessage
+      ?? state.config.completionMessage
+      ?? interfaceText[state.language].completed;
   } else if (revealedCount) {
-    byId("reveal-note").textContent = `${revealedCount} surprise${revealedCount > 1 ? "s" : ""} révélée${revealedCount > 1 ? "s" : ""}. Continue pour trouver les autres.`;
+    byId("reveal-note").textContent = state.language === "fr"
+      ? `${revealedCount} surprise${revealedCount > 1 ? "s" : ""} révélée${revealedCount > 1 ? "s" : ""}. ${interfaceText.fr.continue}`
+      : `${revealedCount} surprise${revealedCount > 1 ? "s" : ""} revealed. ${interfaceText.en.continue}`;
   } else {
-    byId("reveal-note").textContent = "Trouve tous les mots d'une famille pour révéler son thème.";
+    byId("reveal-note").textContent = interfaceText[state.language].noReveals;
   }
 }
 
@@ -304,20 +460,16 @@ function checkAnswers() {
   state.errorsVisible = true;
   updateDisplay();
   const solvedCount = state.placements.filter(isSolved).length;
-  if (solvedCount === state.placements.length) showToast("Bravo, toutes les surprises sont révélées !");
-  else showToast("Les cases vertes sont justes. Revois les cases roses.");
+  if (solvedCount === state.placements.length) showToast(interfaceText[state.language].completed);
+  else showToast(interfaceText[state.language].incorrect);
 }
 
 function resetPuzzle() {
   document.querySelectorAll(".cell input").forEach((input) => { input.value = ""; });
   state.errorsVisible = false;
-  state.activeEntry = null;
-  document.querySelectorAll(".clue-button").forEach((button) => button.classList.remove("is-active"));
-  document.querySelectorAll(".cell").forEach((cell) => cell.classList.remove("is-active"));
-  byId("active-hint").textContent = "Choisis un mot";
-  byId("mobile-active-clue").hidden = true;
+  clearActiveEntry();
   updateDisplay();
-  showToast("La grille est prête à recommencer.");
+  showToast(interfaceText[state.language].restartToast);
 }
 
 function renderPuzzle(generated) {
@@ -349,6 +501,10 @@ function renderPuzzle(generated) {
       wrapper.className = "cell";
       if (!cell) {
         wrapper.setAttribute("aria-hidden", "true");
+        wrapper.addEventListener("click", () => {
+          if (document.activeElement?.matches(".cell input")) document.activeElement.blur();
+          clearActiveEntry();
+        });
       } else {
         wrapper.dataset.cell = keyOf(row, col);
         if (numberAt.has(keyOf(row, col))) {
@@ -364,7 +520,11 @@ function renderPuzzle(generated) {
         input.autocapitalize = "characters";
         input.spellcheck = false;
         input.dataset.answer = cell.letter;
-        input.setAttribute("aria-label", `Ligne ${row - minRow + 1}, colonne ${col - minCol + 1}`);
+        input.dataset.gridRow = row - minRow + 1;
+        input.dataset.gridColumn = col - minCol + 1;
+        input.setAttribute("aria-label", state.language === "fr"
+          ? `Ligne ${input.dataset.gridRow}, colonne ${input.dataset.gridColumn}`
+          : `Row ${input.dataset.gridRow}, column ${input.dataset.gridColumn}`);
         input.addEventListener("input", onLetterInput);
         input.addEventListener("keydown", onLetterKeydown);
         input.addEventListener("focus", () => setActiveFromCell(cell));
@@ -377,7 +537,7 @@ function renderPuzzle(generated) {
   renderClues("across");
   renderClues("down");
   renderReveals();
-  byId("puzzle-credit").textContent = state.config.credit || "Une grille à résoudre";
+  byId("puzzle-credit").textContent = state.config.translations?.[state.language]?.credit ?? state.config.credit;
   byId("loading-state").hidden = true;
   updateDisplay();
 }
@@ -388,7 +548,6 @@ async function start() {
     if (!response.ok) throw new Error(`Chargement JSON impossible (${response.status})`);
     state.config = await response.json();
     byId("theme-count").textContent = state.config.themes.length;
-    byId("page-description").content = `Une grille de mots croisés interactive pour découvrir ${state.config.themes.length} surprises.`;
     state.entries = state.config.words.map((word, index) => ({
       ...word,
       id: word.id || `word-${index + 1}`,
@@ -400,14 +559,22 @@ async function start() {
     const missing = state.entries.filter((entry) => !placedIds.has(entry.id));
     if (missing.length) throw new Error(`Impossible de croiser ces mots : ${missing.map((entry) => entry.answer).join(", ")}`);
     renderPuzzle(generated);
+    applyLanguage();
   } catch (error) {
-    byId("loading-state").textContent = `Impossible de charger la grille : ${error.message}`;
+    state.loadFailed = true;
+    byId("loading-state").textContent = interfaceText[state.language].loadError;
     console.error(error);
   }
 }
 
 byId("check-button").addEventListener("click", checkAnswers);
 byId("reset-button").addEventListener("click", resetPuzzle);
+byId("language-toggle").addEventListener("click", toggleLanguage);
+
+try {
+  if (localStorage.getItem("surprise-words-language") === "en") state.language = "en";
+} catch {}
+applyLanguage();
 
 function updateKeyboardInset() {
   const viewport = window.visualViewport;
