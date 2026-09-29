@@ -149,7 +149,7 @@ h1 em { color: var(--coral); font-weight: 600; }
     position: fixed;
     z-index: 10;
     right: 0;
-    bottom: calc(var(--keyboard-inset) + env(safe-area-inset-bottom));
+    bottom: var(--keyboard-inset);
     left: 0;
     display: grid;
     gap: 4px;
