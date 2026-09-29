@@ -21,39 +21,39 @@
     ],
     "words": [
         {
-            "id": "golf-dormie",
-            "answer": "DORMIE",
-            "clue": "En match play, situation ou un joueur mene d'autant de trous qu'il en reste a jouer",
+            "id": "golf-albatros",
+            "answer": "ALBATROS",
+            "clue": "Réussir avec trois tentatives de moins que prévu.",
             "theme": "golf"
         },
         {
-            "id": "golf-stableford",
-            "answer": "STABLEFORD",
-            "clue": "Formule de competition ou chaque trou rapporte des points selon le score realise par rapport au par",
+            "id": "golf-dubuisson",
+            "answer": "DUBUISSON",
+            "clue": "Français vainqueur de la Ryder Cup 2014",
             "theme": "golf"
         },
         {
-            "id": "racket-boast",
-            "answer": "BOAST",
-            "clue": "Au squash, coup dirige d'abord contre un mur lateral avant d'atteindre le mur frontal",
+            "id": "racket-cuillere",
+            "answer": "CUILLERE",
+            "clue": "Mise en jeu réalisée par un mouvement vertical ascendant.",
             "theme": "raquettes"
         },
         {
-            "id": "racket-degagement",
-            "answer": "DEGAGEMENT",
-            "clue": "Au badminton, frappe haute et profonde envoyant le volant vers le fond du terrain adverse",
+            "id": "racket-t",
+            "answer": "T",
+            "clue": "Jonction entre la ligne de service et la ligne médiane",
             "theme": "raquettes"
         },
         {
-            "id": "food-mirepoix",
-            "answer": "MIREPOIX",
-            "clue": "Melange de carotte, d'oignon et de celeri tailles en des, servant de base aromatique",
+            "id": "food-sabayon",
+            "answer": "SABAYON",
+            "clue": "Creme mousseuse preparee en fouettant des jaunes d'oeufs avec du sucre et un liquide chaud",
             "theme": "gastronomie"
         },
         {
-            "id": "food-lutage",
-            "answer": "LUTAGE",
-            "clue": "Technique consistant a sceller le couvercle d'un recipient avec une pate pour une cuisson hermetique",
+            "id": "food-pithiviers",
+            "answer": "PITHIVIERS",
+            "clue": "Gateau feuillete du Loiret garni de creme d'amandes et souvent decore de croisillons",
             "theme": "gastronomie"
         }
     ]

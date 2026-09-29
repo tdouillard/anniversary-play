@@ -82,6 +82,8 @@ h1 em { color: var(--coral); font-weight: 600; }
 .panel-heading h2, .clues-heading h2 { margin: 0; font-family: var(--display); font-size: 23px; font-weight: 600; }
 .reveal-count { color: var(--green); font-family: var(--mono); font-size: 11px; }
 .reveal-list { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 17px; }
+.completion-image { display: block; width: 100%; height: auto; margin-top: 14px; border-radius: 4px; }
+.completion-image[hidden] { display: none; }
 .reveal-item { min-height: 38px; display: flex; align-items: center; gap: 9px; padding: 6px 8px; border: 1px solid rgba(25, 59, 52, .11); border-radius: 4px; background: rgba(255, 254, 250, .72); }
 .reveal-symbol { width: 19px; height: 19px; flex: none; display: grid; place-items: center; border-radius: 50%; background: #d9e4d8; color: var(--green); font-family: var(--mono); font-size: 9px; }
 .reveal-word { overflow: hidden; color: #809087; font-family: var(--mono); font-size: 10px; font-weight: 500; letter-spacing: 0; text-overflow: ellipsis; white-space: nowrap; }

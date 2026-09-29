@@ -267,7 +267,9 @@ function updateDisplay() {
 
   let revealedCount = 0;
   state.config.themes.forEach((theme) => {
-    const themeEntries = state.placements.filter((placement) => placement.entry.theme === theme.id);
+    const themeEntries = state.placements.filter((placement) => Array.isArray(placement.entry.theme)
+      ? placement.entry.theme.includes(theme.id)
+      : placement.entry.theme === theme.id);
     const revealed = themeEntries.length > 0 && themeEntries.every((placement) => solvedIds.has(placement.entry.id));
     const item = document.querySelector(`[data-theme-id="${theme.id}"]`);
     item.classList.toggle("is-revealed", revealed);
@@ -275,6 +277,8 @@ function updateDisplay() {
     if (revealed) revealedCount += 1;
   });
   byId("reveal-count").textContent = `${revealedCount} / ${state.config.themes.length}`;
+  const allThemesRevealed = state.config.themes.length > 0 && revealedCount === state.config.themes.length;
+  byId("completion-image").hidden = !allThemesRevealed;
 
   if (solved.length === total && total > 0) {
     byId("reveal-note").textContent = state.config.completionMessage || "Tout est trouve. A toi de jouer !";
@@ -376,9 +380,11 @@ function renderPuzzle(generated) {
 
 async function start() {
   try {
-    const response = await fetch("./puzzle.json");
+    const response = await fetch(`./puzzle.json?v=${Date.now()}`, { cache: "no-store" });
     if (!response.ok) throw new Error(`Chargement JSON impossible (${response.status})`);
     state.config = await response.json();
+    byId("theme-count").textContent = state.config.themes.length;
+    byId("page-description").content = `Une grille de mots croises interactive pour decouvrir ${state.config.themes.length} surprises.`;
     state.entries = state.config.words.map((word, index) => ({
       ...word,
       id: word.id || `word-${index + 1}`,

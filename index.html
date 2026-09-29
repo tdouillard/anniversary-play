@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#f5f7f0">
-    <meta name="description" content="Une grille de mots croises interactive pour decouvrir quatre surprises.">
+    <meta name="description" id="page-description" content="Une grille de mots croises interactive pour decouvrir des surprises.">
     <title>Les mots surprises</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,7 +15,7 @@
   <body>
     <main class="page-shell">
       <header class="masthead">
-        <a class="wordmark" href="./" aria-label="Les mots surprises, accueil"><span class="wordmark-mark">4</span> petits mysteres</a>
+        <a class="wordmark" href="./" aria-label="Les mots surprises, accueil"><span class="wordmark-mark" id="theme-count">3</span> petits mysteres</a>
         <span class="edition">EDITION ANNIVERSAIRE <span class="edition-dot"></span></span>
       </header>
 
@@ -58,6 +58,7 @@
               <span class="reveal-count" id="reveal-count">0 / 4</span>
             </div>
             <div class="reveal-list" id="reveal-list"></div>
+            <img class="completion-image" id="completion-image" src="./result-asset.png" alt="Illustration d'un parcours de golf au coucher du soleil, d'une raquette et d'un plat gastronomique" hidden>
             <p class="reveal-note" id="reveal-note">Trouve tous les mots d'une famille pour reveler son theme.</p>
           </section>
 
